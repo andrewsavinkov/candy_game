@@ -9,8 +9,8 @@
 #
 # b) Подумайте как наделить бота 'интеллектом'
 #                                         Решение
-from random import randint as RI
-import time as TI
+# from random import randint as RI
+# import time as TI
 #
 # def introduce_players():
 #     players=[]
