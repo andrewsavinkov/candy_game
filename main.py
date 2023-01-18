@@ -1,7 +1,3 @@
-# 3) Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
-# Входные и выходные данные хранятся в отдельных текстовых файлах.
-# aaaaabbbcccc -> 5a3b4c
-# 5a3b4c -> aaaaabbbcccc
 #                                         ---1---
 # 1) Создайте программу для игры с конфетами человек против человека.
 #
@@ -161,60 +157,121 @@ import time as TI
 #                                         ---2---
 # Создайте программу для игры в 'Крестики-нолики'
 # НЕОБЯЗАТЕЛЬНО Добавить игру против бота с интеллектом
-board = [x for x in range(1,10)]
-def field(board):
-    print("-------------")
-    for i in range(3):
-        print("|", board[0+i*3], "|", board[1+i*3], "|", board[2+i*3], "|")
-        print("-------------")
+# board = [x for x in range(1,10)]
+# def field(board):
+#     print("-------------")
+#     for i in range(3):
+#         print("|", board[0+i*3], "|", board[1+i*3], "|", board[2+i*3], "|")
+#         print("-------------")
+#
+# def take_input(player_name, player_token):
+#     valid = False
+#     while not valid:
+#         player_answer = input("Куда поставим " + player_name +" ?"+"\n")
+#         try:
+#             player_answer = int(player_answer)
+#         except:
+#             print("Некорректный ввод. Вы уверены, что ввели число?")
+#             continue
+#         if player_answer >= 1 and player_answer <= 9:
+#             if (str(board[player_answer-1]) not in "ХО"):
+#                 board[player_answer-1] = player_token
+#                 valid = True
+#             else:
+#                 print("Поле занято")
+#         else:
+#             print("Для хода введите число от 1 до 9")
+#
+# def win(board):
+#     win_coord = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6))
+#     for each in win_coord:
+#         if board[each[0]] == board[each[1]] == board[each[2]]:
+#             return board[each[0]]
+#     return False
+#
+# player1=input('Введите имя игрока 1:\t')
+# player2=input('Введите имя игрока 2:\t')
+# token1=input("Чем играете, " + player1 + "? Введите X или О: \t")
+# token2=input("Чем играете, " + player2 + "? Введите X или О: \t")
+# move_counter=0
+#
+# while not win(board):
+#     field(board)
+#     take_input(player1, token1)
+#     move_counter+=1
+#     if move_counter==9:
+#         print("Ничья!")
+#         break
+#     if win(board):
+#         print(f'Поздравляю, {player1} победил!')
+#         break
+#     else:
+#         take_input(player2, token2)
+#         move_counter+=1
+#         if move_counter == 9:
+#             print("Ничья!")
+#             break
+#         if win(board):
+#             print(f'Поздравляю, {player2} победил!')
+#             break
+#                                         ---3---
+# 3) Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
+# Входные и выходные данные хранятся в отдельных текстовых файлах.
+# aaaaabbbcccc -> 5a3b4c
+# 5a3b4c -> aaaaabbbcccc
+def decompress_file():
+    with open('compressed.txt', 'r', encoding="utf-8") as f:
+        nums = ''
+        numbers = []
+        indices = []
+        start_index = 0
+        decompressed_string = ''
+        lines = f.readlines()
+        for i in range(len(lines)):
+            for j in range(len(lines[i]) - 1):  # последний символ в строке: "\n" его не учитываем
+                if not lines[i][j].isnumeric():
+                    indices.append(j)
 
-def take_input(player_name, player_token):
-    valid = False
-    while not valid:
-        player_answer = input("Куда поставим " + player_name +" ?"+"\n")
-        try:
-            player_answer = int(player_answer)
-        except:
-            print("Некорректный ввод. Вы уверены, что ввели число?")
-            continue
-        if player_answer >= 1 and player_answer <= 9:
-            if (str(board[player_answer-1]) not in "ХО"):
-                board[player_answer-1] = player_token
-                valid = True
-            else:
-                print("Поле занято")
-        else:
-            print("Для хода введите число от 1 до 9")
+            for items in indices:
+                for k in range(start_index, items):
+                    nums = nums + lines[i][k]
+                start_index = items + 1
+                numbers.append(int(nums))
+                nums = ''
 
-def win(board):
-    win_coord = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6))
-    for each in win_coord:
-        if board[each[0]] == board[each[1]] == board[each[2]]:
-            return board[each[0]]
-    return False
+            if len(indices) == len(numbers):
+                for index in range(len(indices)):
+                    letter_to_insert = indices[index]
+                    decompressed_string = decompressed_string + (numbers[index] * lines[i][letter_to_insert])
 
-player1=input('Введите имя игрока 1:\t')
-player2=input('Введите имя игрока 2:\t')
-token1=input("Чем играете, " + player1 + "? Введите X или О: \t")
-token2=input("Чем играете, " + player2 + "? Введите X или О: \t")
-move_counter=0
+                print(decompressed_string)
+            with open('decompressed.txt', 'a', encoding="utf-8") as file:
+                file.write(decompressed_string)
+                file.write('\n')
 
-while not win(board):
-    field(board)
-    take_input(player1, token1)
-    move_counter+=1
-    if move_counter==9:
-        print("Ничья!")
-        break
-    if win(board):
-        print(f'Поздравляю, {player1} победил!')
-        break
-    else:
-        take_input(player2, token2)
-        move_counter+=1
-        if move_counter == 9:
-            print("Ничья!")
-            break
-        if win(board):
-            print(f'Поздравляю, {player2} победил!')
-            break
+
+def compress_file():
+    count = 0
+    resulting_list = []
+    result = []
+    with open('decompressed.txt', 'r', encoding="utf-8") as f:
+        lines = f.readlines()
+        for i in range(len(lines)):
+            for j in range(len(lines[i]) - 1):
+                for k in range(len(lines[i])):
+                    if lines[i][j] == lines[i][k]:
+                        count += 1
+                resulting_list.append(str(count) + lines[i][j])
+                count = 0
+        result.append(resulting_list[0])
+        for i in range(1, len(resulting_list)):
+            if resulting_list[i] != resulting_list[i - 1]:
+                result.append(resulting_list[i])
+        result = ''.join(result)
+        with open('compressed.txt', 'a', encoding="utf-8") as file:
+            file.write(result)
+            file.write('\n')
+
+
+# compress_file()
+decompress_file()
