@@ -74,7 +74,7 @@ import time as TI
 #     else:
 #         print(f'Теперь ходит:\t {players_turn()}')
 #
-# решение а, б)
+#                                               решение а, б)
 # from random import randint as RI
 # import time as TI
 # first_to_move=''
@@ -157,6 +157,7 @@ import time as TI
 #                                         ---2---
 # Создайте программу для игры в 'Крестики-нолики'
 # НЕОБЯЗАТЕЛЬНО Добавить игру против бота с интеллектом
+#                                          Решение
 # board = [x for x in range(1,10)]
 # def field(board):
 #     print("-------------")
@@ -219,59 +220,60 @@ import time as TI
 # Входные и выходные данные хранятся в отдельных текстовых файлах.
 # aaaaabbbcccc -> 5a3b4c
 # 5a3b4c -> aaaaabbbcccc
-def decompress_file():
-    with open('compressed.txt', 'r', encoding="utf-8") as f:
-        nums = ''
-        numbers = []
-        indices = []
-        start_index = 0
-        decompressed_string = ''
-        lines = f.readlines()
-        for i in range(len(lines)):
-            for j in range(len(lines[i]) - 1):  # последний символ в строке: "\n" его не учитываем
-                if not lines[i][j].isnumeric():
-                    indices.append(j)
-
-            for items in indices:
-                for k in range(start_index, items):
-                    nums = nums + lines[i][k]
-                start_index = items + 1
-                numbers.append(int(nums))
-                nums = ''
-
-            if len(indices) == len(numbers):
-                for index in range(len(indices)):
-                    letter_to_insert = indices[index]
-                    decompressed_string = decompressed_string + (numbers[index] * lines[i][letter_to_insert])
-
-                print(decompressed_string)
-            with open('decompressed.txt', 'a', encoding="utf-8") as file:
-                file.write(decompressed_string)
-                file.write('\n')
-
-
-def compress_file():
-    count = 0
-    resulting_list = []
-    result = []
-    with open('decompressed.txt', 'r', encoding="utf-8") as f:
-        lines = f.readlines()
-        for i in range(len(lines)):
-            for j in range(len(lines[i]) - 1):
-                for k in range(len(lines[i])):
-                    if lines[i][j] == lines[i][k]:
-                        count += 1
-                resulting_list.append(str(count) + lines[i][j])
-                count = 0
-        result.append(resulting_list[0])
-        for i in range(1, len(resulting_list)):
-            if resulting_list[i] != resulting_list[i - 1]:
-                result.append(resulting_list[i])
-        result = ''.join(result)
-        with open('compressed.txt', 'a', encoding="utf-8") as file:
-            file.write(result)
-            file.write('\n')
-
-
-# compress_file()
-decompress_file()
+#                                           Решение
+# def decompress_file():
+#     with open('compressed.txt', 'r', encoding="utf-8") as f:
+#         nums = ''
+#         numbers = []
+#         indices = []
+#         start_index = 0
+#         decompressed_string = ''
+#         lines = f.readlines()
+#         for i in range(len(lines)):
+#             for j in range(len(lines[i]) - 1):  # последний символ в строке: "\n" его не учитываем
+#                 if not lines[i][j].isnumeric():
+#                     indices.append(j)
+#
+#             for items in indices:
+#                 for k in range(start_index, items):
+#                     nums = nums + lines[i][k]
+#                 start_index = items + 1
+#                 numbers.append(int(nums))
+#                 nums = ''
+#
+#             if len(indices) == len(numbers):
+#                 for index in range(len(indices)):
+#                     letter_to_insert = indices[index]
+#                     decompressed_string = decompressed_string + (numbers[index] * lines[i][letter_to_insert])
+#
+#                 print(decompressed_string)
+#             with open('decompressed.txt', 'a', encoding="utf-8") as file:
+#                 file.write(decompressed_string)
+#                 file.write('\n')
+#
+#
+# def compress_file():
+#     count = 0
+#     resulting_list = []
+#     result = []
+#     with open('decompressed.txt', 'r', encoding="utf-8") as f:
+#         lines = f.readlines()
+#         for i in range(len(lines)):
+#             for j in range(len(lines[i]) - 1):
+#                 for k in range(len(lines[i])):
+#                     if lines[i][j] == lines[i][k]:
+#                         count += 1
+#                 resulting_list.append(str(count) + lines[i][j])
+#                 count = 0
+#         result.append(resulting_list[0])
+#         for i in range(1, len(resulting_list)):
+#             if resulting_list[i] != resulting_list[i - 1]:
+#                 result.append(resulting_list[i])
+#         result = ''.join(result)
+#         with open('compressed.txt', 'a', encoding="utf-8") as file:
+#             file.write(result)
+#             file.write('\n')
+#
+#
+# # compress_file()
+# decompress_file()
